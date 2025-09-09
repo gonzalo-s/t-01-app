@@ -12,13 +12,7 @@ type ViewScreenProps = NativeStackScreenProps<
   code: UserTurn;
 };
 
-const ViewScreen = ({
-  navigation,
-  route,
-  qrId,
-  turnos,
-  code,
-}: ViewScreenProps) => {
+const ViewScreen = ({ navigation, qrId, turnos, code }: ViewScreenProps) => {
   return (
     <View
       style={{

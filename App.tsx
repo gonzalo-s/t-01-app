@@ -6,6 +6,7 @@ import AboutScreen from "./screens/AboutScreen";
 import ScanQRScreen from "./screens/ScanQRScreen";
 import ViewScreen from "./screens/ViewScreen";
 import EnterUserTurnScreen from "./screens/EnterUserTurnScreen";
+import Constants from "expo-constants";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -29,6 +30,8 @@ export type UserTurn = {
 };
 
 export default function App() {
+  const { WS_PORT, WS_HOST } = Constants.expoConfig?.extra ?? {};
+
   const [qrId, setQrId] = useState<string | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [turnos, setTurnos] = useState<Array<Turno>>();
@@ -38,10 +41,12 @@ export default function App() {
     date: null,
   });
   const wsRef = useRef<WebSocket | null>(null);
-  console.log("🚀 ~ App ~ code:", userTurn);
+
+  // Get WebSocket host/port from env
+  const WS_URL = `ws://${WS_HOST}:${WS_PORT}`;
 
   useEffect(() => {
-    const ws = new WebSocket("ws://192.168.68.31:8080");
+    const ws = new WebSocket(WS_URL);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -71,7 +76,7 @@ export default function App() {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [qrId]);
 
   useEffect(() => {
     // Send qrId to server when it changes and ws is open

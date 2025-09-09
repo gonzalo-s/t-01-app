@@ -51,8 +51,8 @@ export default function ScanQRScreen({
           barcodeTypes: ["qr"],
         }}
         onBarcodeScanned={({ data }) => {
-          console.log("🚀 ~ data:", data);
           const parsed = JSON.parse(data);
+          console.log("🚀 ~ parsed:", parsed.locationId);
           setQrId(parsed.locationId);
           navigation.replace("ViewScreen");
         }}

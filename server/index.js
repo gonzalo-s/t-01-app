@@ -1,8 +1,14 @@
 // Basic WebSocket server using Node.js and ws
-const WebSocket = require("ws");
+const { Server } = require("ws");
+const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
-const PORT = 8080;
-const wss = new WebSocket.Server({ port: PORT });
+const PORT = process.env.WS_PORT || 8080;
+const HOST = process.env.WS_HOST || "0.0.0.0"; // fallback to all interfaces
+console.log("🚀 ~ HOST:", HOST);
+
+const wss = new Server({ port: PORT, host: HOST });
 const testID = "AB123C";
 wss.on("connection", (ws) => {
   console.log("Client connected");
@@ -32,13 +38,12 @@ wss.on("connection", (ws) => {
 
   ws.on("close", () => {
     if (interval) clearInterval(interval);
-    console.log("🚀 ~ Client disconnected");
+    console.log("Client disconnected");
   });
 });
 
-console.log(`WebSocket server running on ws://192.168.68.31:${PORT}`);
-
-console.log(`WebSocket server running on ws://localhost:${PORT}`);
+console.log(`WebSocket server running on ws://${HOST}:${PORT}`);
+console.log(`WebSocket server also available on ws://localhost:${PORT}`);
 
 const patientMessages = [
   {
