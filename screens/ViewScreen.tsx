@@ -1,14 +1,24 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { UserTurn, Turno, RootStackParamList } from "../App";
 
-interface ViewScreenProps {
+type ViewScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "ViewScreen"
+> & {
   qrId: string | null;
-  navigation: any;
-  route: any;
-}
+  turnos: Array<Turno>;
+  code: UserTurn;
+};
 
-const ViewScreen = ({ qrId }: ViewScreenProps) => {
-  console.log("🚀 ~ ViewScreen ~ qrId:", qrId);
+const ViewScreen = ({
+  navigation,
+  route,
+  qrId,
+  turnos,
+  code,
+}: ViewScreenProps) => {
   return (
     <View
       style={{
@@ -23,21 +33,28 @@ const ViewScreen = ({ qrId }: ViewScreenProps) => {
       }}
     >
       <Text style={{ fontWeight: "bold", fontSize: 24 }}>Live View</Text>
-      {qrId && (
-        <Text
-          style={{
-            marginTop: 20,
-            fontSize: 18,
-            display: "flex",
-            width: "100%",
-            backgroundColor: "#ad5454",
-          }}
-        >
-          ID: {qrId}
-        </Text>
+      {qrId && <Text style={styles.textDefault}>ID: {qrId}</Text>}
+      {code ? <Text style={styles.textDefault}>Code: {code.raw}</Text> : null}
+      {turnos && turnos.length > 0 ? (
+        turnos.map((turno, index) => (
+          <Text style={styles.textDefault} key={index}>
+            Turno: {turno.turno} Box: {turno.box}
+          </Text>
+        ))
+      ) : (
+        <Text>No turnos available</Text>
       )}
     </View>
   );
 };
 
 export default ViewScreen;
+
+const styles = StyleSheet.create({
+  textDefault: {
+    marginTop: 20,
+    fontSize: 18,
+    display: "flex",
+    width: "100%",
+  },
+});

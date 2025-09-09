@@ -5,7 +5,7 @@ import { RootStackParamList } from "../App";
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, "Home">;
 
-export default function HomeScreen({ navigation }: HomeScreenProps) {
+export default function HomeScreen({ navigation, route }: HomeScreenProps) {
   return (
     <View style={styles.container}>
       <Button
@@ -18,7 +18,7 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       />
       <Button
         title="Ingresar codigo de turno"
-        onPress={() => navigation.navigate("EnterCodeScreen")}
+        onPress={() => navigation.navigate("EnterUserTurnScreen")}
       />
     </View>
   );

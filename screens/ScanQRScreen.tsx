@@ -1,12 +1,21 @@
 import React, { useRef, useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { CameraView, useCameraPermissions, Camera } from "expo-camera";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../App";
 
-interface ScanQRScreenProps {
+type ScanQRScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "ScanQRScreen"
+> & {
   setQrId: (id: string | null) => void;
-}
+};
 
-export default function ScanQRScreen({ setQrId }: ScanQRScreenProps) {
+export default function ScanQRScreen({
+  setQrId,
+  navigation,
+  route,
+}: ScanQRScreenProps) {
   const [status, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraView>(null);
 
@@ -42,8 +51,10 @@ export default function ScanQRScreen({ setQrId }: ScanQRScreenProps) {
           barcodeTypes: ["qr"],
         }}
         onBarcodeScanned={({ data }) => {
+          console.log("🚀 ~ data:", data);
           const parsed = JSON.parse(data);
           setQrId(parsed.locationId);
+          navigation.replace("ViewScreen");
         }}
       />
       <View style={styles.buttonContainer}></View>
