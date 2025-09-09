@@ -12,6 +12,21 @@ My first Expo app created following the [Expo tutorial guide](https://docs.expo.
 
 ## Getting Started
 
+### 0. Configure environment variables
+
+Create a `.env` file in the project root (`c:\Users\gonzalo.soler\Documents\workspace\t-01-app\.env`) with the following content:
+
+```
+WS_HOST="192.168.68.26"
+WS_PORT="8080"
+```
+
+---
+
+## Adjust the IP and port as needed for your environment.
+
+---
+
 ### 1. Install dependencies (run in project root)
 
 ```bash
